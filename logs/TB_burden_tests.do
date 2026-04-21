@@ -1,4 +1,4 @@
-*! TB_burden_tests.do -- statatest comprehensive feature demo
+*! TB_burden_tests.do: statatest comprehensive feature demo
 *  Uses WHO TB Burden dataset (1990-2013, 5,120 obs, 47 vars)
 *  Demonstrates every statatest subcommand in sequence
 *
@@ -71,7 +71,7 @@ statatest begin "Suite 4: Valid ranges"
 statatest end
 
 // ========================================================================
-// Suite 5: assert -- epidemiological consistency checks
+// Suite 5: assert. Epidemiological consistency checks.
 // ========================================================================
 statatest begin "Suite 5: Epidemiological consistency"
     // Global mean: incidence must exceed mortality (not true row-by-row
@@ -79,18 +79,22 @@ statatest begin "Suite 5: Epidemiological consistency"
     quietly summarize inc_rate if !mi(inc_rate), meanonly
     local mean_inc = r(mean)
     quietly summarize mort_rate if !mi(mort_rate), meanonly
-    statatest assert (`mean_inc' > r(mean)), msg("mean incidence > mean mortality globally")
+    local mean_mort = r(mean)
+    statatest assert (`mean_inc' > `mean_mort'), msg("mean incidence > mean mortality globally")
 
     quietly count if inc_rate_lo > inc_rate & !mi(inc_rate_lo) & !mi(inc_rate)
-    statatest assert (r(N) == 0), msg("incidence lower CI bound <= point estimate")
+    local n_lo = r(N)
+    statatest assert (`n_lo' == 0), msg("incidence lower CI bound <= point estimate")
 
     quietly count if inc_rate_hi < inc_rate & !mi(inc_rate_hi) & !mi(inc_rate)
-    statatest assert (r(N) == 0), msg("incidence upper CI bound >= point estimate")
+    local n_hi = r(N)
+    statatest assert (`n_hi' == 0), msg("incidence upper CI bound >= point estimate")
 
     quietly summarize inc_rate if region == "AFR", meanonly
     local afr_mean = r(mean)
     quietly summarize inc_rate if region == "EUR", meanonly
-    statatest assert (`afr_mean' > r(mean)), ///
+    local eur_mean = r(mean)
+    statatest assert (`afr_mean' > `eur_mean'), ///
         msg("Africa mean incidence > Europe mean incidence")
 statatest end
 
@@ -99,13 +103,16 @@ statatest end
 // ========================================================================
 statatest begin "Suite 6: Summary statistics"
     summarize year, meanonly
-    statatest assert_equal r(min) 1990,               msg("earliest year is 1990")
-    statatest assert_equal r(max) 2013,               msg("latest year is 2013")
-    statatest assert_approx r(mean) 2001.549, tol(0.01) msg("mean year ~2001.5 (slight panel imbalance)")
+    local yr_min  = r(min)
+    local yr_max  = r(max)
+    local yr_mean = r(mean)
+    statatest assert_equal  `yr_min'  1990,     msg("earliest year is 1990")
+    statatest assert_equal  `yr_max'  2013,     msg("latest year is 2013")
+    statatest assert_approx `yr_mean' 2001.549, tol(0.01) msg("mean year ~2001.5 (slight panel imbalance)")
 statatest end
 
 // ========================================================================
-// Suite 7: setup + teardown -- Africa subset, then restore
+// Suite 7: setup and teardown. Africa subset, then restore.
 // ========================================================================
 statatest begin "Suite 7: Setup and teardown"
     statatest setup
@@ -126,7 +133,7 @@ statatest begin "Suite 8: expect_error"
 statatest end
 
 // ========================================================================
-// Suite 9: statatest run -- batch execution of a separate test file
+// Suite 9: statatest run. Batch execution of a separate test file.
 // ========================================================================
 tempfile sea_tests
 file open ft using `"`sea_tests'"', write replace

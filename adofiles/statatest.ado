@@ -4,7 +4,7 @@ program define statatest
     version 16
 
     if `"`0'"' == "" {
-        display as text "statatest -- a unit-testing framework for Stata ado-files"
+        display as text "statatest: a unit-testing framework for Stata ado-files"
         display as text ""
         display as text "Subcommands:"
         display as text "  statatest begin suite_name"

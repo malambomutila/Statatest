@@ -72,13 +72,14 @@ preserve
   replace rep78 = . if rep78 == 1
   statatest begin "Test 7: Missing values"
     summarize rep78, meanonly
-    statatest assert (r(N) < 74),  msg("some missing rep78")
-    statatest assert (r(N) > 0),   msg("some non-missing rep78")
+    local rep78_n = r(N)
+    statatest assert (`rep78_n' < 74), msg("some missing rep78")
+    statatest assert (`rep78_n' > 0),  msg("some non-missing rep78")
   statatest end
   assert r(fail) == 0
 restore
 
-// Test 8: Error handling -- assert outside begin/end
+// Test 8: Error handling. Assert called outside begin/end.
 global STTEST_active 0
 capture statatest_assert (1 == 1)
 local t8_rc = _rc
@@ -101,7 +102,7 @@ assert r(total) == 3
 assert r(pass)  == 3
 assert r(fail)  == 0
 
-// Test 10: Compatibility -- version 16
+// Test 10: Compatibility with version 16.
 version 16: statatest begin "Test 10: version 16"
 version 16: statatest assert (1 == 1), msg("runs under version 16")
 version 16: statatest end

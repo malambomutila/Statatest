@@ -13,24 +13,27 @@ log using statatest_example.log, replace text
 // ---------------------------------------------------------------------------
 sysuse auto, clear
 
-statatest begin "auto dataset -- basic integrity"
+statatest begin "auto dataset: basic integrity"
 
   statatest assert (c(N) == 74),  msg("74 observations")
   statatest assert (c(k) == 12),  msg("12 variables")
   statatest assert (!mi(mpg)),    msg("mpg has no missing values")
 
-  // Check mean mpg from summarize
+  // Check mean mpg from summarize. Save r() to locals before calling statatest.
   summarize mpg, meanonly
-  statatest assert_approx r(mean) 21.2973 , tol(0.0001) msg("mean mpg ≈ 21.30")
-  statatest assert (r(min) >= 0),           msg("mpg is non-negative")
-  statatest assert (r(max) <= 50),          msg("mpg max is plausible (≤50)")
+  local mpg_mean = r(mean)
+  local mpg_min  = r(min)
+  local mpg_max  = r(max)
+  statatest assert_approx `mpg_mean' 21.2973, tol(0.0001) msg("mean mpg ≈ 21.30")
+  statatest assert (`mpg_min' >= 0),          msg("mpg is non-negative")
+  statatest assert (`mpg_max' <= 50),         msg("mpg max is plausible (≤50)")
 
 statatest end
 
 // ---------------------------------------------------------------------------
 // SUITE 2: Variable type checks on auto
 // ---------------------------------------------------------------------------
-statatest begin "auto -- variable types"
+statatest begin "auto: variable types"
 
   statatest assert ("`: type mpg'"   == "int"),    msg("mpg is int")
   statatest assert ("`: type price'" == "int"),    msg("price is int")
@@ -39,11 +42,11 @@ statatest begin "auto -- variable types"
 statatest end
 
 // ---------------------------------------------------------------------------
-// SUITE 3: Edge cases -- empty dataset
+// SUITE 3: Edge cases. Empty dataset.
 // ---------------------------------------------------------------------------
 preserve
   clear
-  statatest begin "edge case -- empty dataset"
+  statatest begin "edge case: empty dataset"
     statatest assert (c(N) == 0),  msg("c(N)==0 after clear")
     statatest assert (c(k) == 0),  msg("c(k)==0 after clear")
   statatest end
@@ -69,9 +72,12 @@ statatest begin "mycenter command tests"
   mycenter mpg
 
   summarize mpg_c, meanonly
-  statatest assert_approx r(mean) 0 , tol(1e-8) msg("centered mean is 0")
-  statatest assert (r(min) < 0),                msg("some centered values are negative")
-  statatest assert (r(max) > 0),                msg("some centered values are positive")
+  local mpgc_mean = r(mean)
+  local mpgc_min  = r(min)
+  local mpgc_max  = r(max)
+  statatest assert_approx `mpgc_mean' 0,  tol(1e-8) msg("centered mean is 0")
+  statatest assert (`mpgc_min' < 0),               msg("some centered values are negative")
+  statatest assert (`mpgc_max' > 0),               msg("some centered values are positive")
 
   // New variable should exist
   capture confirm variable mpg_c
@@ -80,7 +86,7 @@ statatest begin "mycenter command tests"
 statatest end
 
 // ---------------------------------------------------------------------------
-// SUITE 5: Error-handling -- command must fail gracefully on bad input
+// SUITE 5: Error handling. Command must fail gracefully on bad input.
 // ---------------------------------------------------------------------------
 statatest begin "error handling"
 

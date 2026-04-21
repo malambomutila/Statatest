@@ -53,7 +53,7 @@ program define statatest_run, rclass
     }
     else if `sf' == 0 {
         display as result `"`sp' / `st' tests passed across `ss' suite(s)"' ///
-            as text "  --  " as result "ALL PASS"
+            as text ": " as result "ALL PASS"
     }
     else {
         display as error `"`sf' / `st' tests FAILED across `ss' suite(s)"'
