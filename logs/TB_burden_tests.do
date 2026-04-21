@@ -1,4 +1,4 @@
-*! TB_burden_tests.do — statatest comprehensive feature demo
+*! TB_burden_tests.do -- statatest comprehensive feature demo
 *  Uses WHO TB Burden dataset (1990-2013, 5,120 obs, 47 vars)
 *  Demonstrates every statatest subcommand in sequence
 *
@@ -71,7 +71,7 @@ statatest begin "Suite 4: Valid ranges"
 statatest end
 
 // ========================================================================
-// Suite 5: assert — epidemiological consistency checks
+// Suite 5: assert -- epidemiological consistency checks
 // ========================================================================
 statatest begin "Suite 5: Epidemiological consistency"
     // Global mean: incidence must exceed mortality (not true row-by-row
@@ -105,7 +105,7 @@ statatest begin "Suite 6: Summary statistics"
 statatest end
 
 // ========================================================================
-// Suite 7: setup + teardown — Africa subset, then restore
+// Suite 7: setup + teardown -- Africa subset, then restore
 // ========================================================================
 statatest begin "Suite 7: Setup and teardown"
     statatest setup
@@ -126,7 +126,7 @@ statatest begin "Suite 8: expect_error"
 statatest end
 
 // ========================================================================
-// Suite 9: statatest run — batch execution of a separate test file
+// Suite 9: statatest run -- batch execution of a separate test file
 // ========================================================================
 tempfile sea_tests
 file open ft using `"`sea_tests'"', write replace

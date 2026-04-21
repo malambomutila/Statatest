@@ -13,7 +13,7 @@ log using statatest_example.log, replace text
 // ---------------------------------------------------------------------------
 sysuse auto, clear
 
-statatest begin "auto dataset — basic integrity"
+statatest begin "auto dataset -- basic integrity"
 
   statatest assert (c(N) == 74),  msg("74 observations")
   statatest assert (c(k) == 12),  msg("12 variables")
@@ -30,7 +30,7 @@ statatest end
 // ---------------------------------------------------------------------------
 // SUITE 2: Variable type checks on auto
 // ---------------------------------------------------------------------------
-statatest begin "auto — variable types"
+statatest begin "auto -- variable types"
 
   statatest assert ("`: type mpg'"   == "int"),    msg("mpg is int")
   statatest assert ("`: type price'" == "int"),    msg("price is int")
@@ -39,11 +39,11 @@ statatest begin "auto — variable types"
 statatest end
 
 // ---------------------------------------------------------------------------
-// SUITE 3: Edge cases — empty dataset
+// SUITE 3: Edge cases -- empty dataset
 // ---------------------------------------------------------------------------
 preserve
   clear
-  statatest begin "edge case — empty dataset"
+  statatest begin "edge case -- empty dataset"
     statatest assert (c(N) == 0),  msg("c(N)==0 after clear")
     statatest assert (c(k) == 0),  msg("c(k)==0 after clear")
   statatest end
@@ -80,7 +80,7 @@ statatest begin "mycenter command tests"
 statatest end
 
 // ---------------------------------------------------------------------------
-// SUITE 5: Error-handling — command must fail gracefully on bad input
+// SUITE 5: Error-handling -- command must fail gracefully on bad input
 // ---------------------------------------------------------------------------
 statatest begin "error handling"
 

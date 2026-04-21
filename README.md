@@ -50,7 +50,7 @@ sysdir
 
 The line that says `PERSONAL:` gives you the folder path.
 
-**Step 2 — Copy all ado files**
+**Step 2 -- Copy all ado files**
 
 Copy every `.ado` file from the `adofiles/` folder of this repository into your PERSONAL folder. If the folder does not exist yet, create it.
 
@@ -84,7 +84,7 @@ statatest suite: my first test suite
 ------------------------------------------------------------
   PASS : the auto dataset has 74 rows
 ------------------------------------------------------------
-1 / 1 tests passed  —  ALL PASS  [my first test suite]
+1 / 1 tests passed  --  ALL PASS  [my first test suite]
 ------------------------------------------------------------
 ```
 
@@ -102,7 +102,7 @@ You will see:
   FAIL : the auto dataset has 74 rows
          (condition was false: (c(N) == 75))
 ------------------------------------------------------------
-1 / 1 tests FAILED  —  [my first test suite]
+1 / 1 tests FAILED  --  [my first test suite]
 ------------------------------------------------------------
 ```
 
@@ -130,17 +130,17 @@ statatest end [, strict]
 | `statatest begin "suite name"` | Replace `suite name` with any descriptive label in double quotes | Starts a group of tests and prints a header with your label |
 | `statatest assert (...)` | Write the condition you want to check inside the parentheses | Checks one condition and prints PASS or FAIL |
 | `statatest end` | Type exactly as shown | Prints the final count of how many tests passed and how many failed |
-| `statatest end, strict` | Add `, strict` only if you want Stata to stop on failure | Same as above, but exits with an error code if any test failed — useful when running tests automatically |
+| `statatest end, strict` | Add `, strict` only if you want Stata to stop on failure | Same as above, but exits with an error code if any test failed -- useful when running tests automatically |
 
-**Example `begin` labels** — use anything that describes what you are testing:
+**Example `begin` labels** -- use anything that describes what you are testing:
 
 ```stata
 statatest begin "data quality checks after import"
-statatest begin "household survey — completeness"
-statatest begin "TB burden dataset — valid ranges"
+statatest begin "household survey -- completeness"
+statatest begin "TB burden dataset -- valid ranges"
 ```
 
-You can have as many `statatest assert` lines between `begin` and `end` as you like. statatest does not stop on failure — it records the result and moves to the next check.
+You can have as many `statatest assert` lines between `begin` and `end` as you like. statatest does not stop on failure -- it records the result and moves to the next check.
 
 ---
 
@@ -182,7 +182,7 @@ statatest assert_nomissing respondent_id
 
 ### `varname [varname ...]` is one or more variable names
 
-Square brackets `[...]` mean the part inside is **optional** — you can include it or leave it out. The `...` means you can repeat it as many times as you like. When listing variable names, separate them with spaces (not commas).
+Square brackets `[...]` mean the part inside is **optional** -- you can include it or leave it out. The `...` means you can repeat it as many times as you like. When listing variable names, separate them with spaces (not commas).
 
 ```stata
 // Syntax shown in this guide:
@@ -230,7 +230,7 @@ Without `msg()`, statatest generates a default label automatically (like `5120 =
 
 ---
 
-### `{min(#)|max(#)|min(#) max(#)}` — choose one of these alternatives
+### `{min(#)|max(#)|min(#) max(#)}` -- choose one of these alternatives
 
 Curly braces `{...}` with alternatives separated by `|` mean **choose exactly one**. In `assert_range`, you must provide at least one bound. Either or both are fine.
 
@@ -249,10 +249,10 @@ When you run a command like `summarize`, `count`, or `regress`, Stata automatica
 ```stata
 summarize mpg, meanonly
 // After this runs, Stata has stored:
-//   r(mean)  — the mean of mpg
-//   r(min)   — the smallest value
-//   r(max)   — the largest value
-//   r(N)     — the count of non-missing observations
+//   r(mean)  -- the mean of mpg
+//   r(min)   -- the smallest value
+//   r(max)   -- the largest value
+//   r(N)     -- the count of non-missing observations
 
 statatest assert_equal r(min) 0, msg("minimum mpg is 0")
 statatest assert_approx r(mean) 21.3, tol(0.1) msg("mean mpg is about 21")
@@ -266,8 +266,8 @@ To see what is stored after any command, type `return list` in the Command windo
 
 In `assert_equal` and `assert_approx`, the two unnamed arguments are:
 
-- **`actual`** — the value your code just produced (usually a stored result or a scalar)
-- **`expected`** — the value you expect it to equal (usually a number you type)
+- **`actual`** -- the value your code just produced (usually a stored result or a scalar)
+- **`expected`** -- the value you expect it to equal (usually a number you type)
 
 ```stata
 summarize year, meanonly
@@ -284,7 +284,7 @@ statatest assert_equal r(min) 1990   // actual = r(min), expected = 1990
 Adding `, strict` after `statatest end` or after the filename in `statatest run` tells Stata to exit with an error if any test failed. This is only needed when running tests automatically (for example, in a CI pipeline). For normal interactive use, leave it out.
 
 ```stata
-statatest end             // always continues — just prints the summary
+statatest end             // always continues -- just prints the summary
 statatest end, strict     // stops Stata if any test in this suite failed
 ```
 
@@ -304,8 +304,8 @@ statatest assert (expression) [, msg(string)]
 
 | Argument | What it means | Example |
 |---|---|---|
-| `(expression)` | The condition you want to check, written inside parentheses. It must be something that is either true or false — a comparison, a logical statement, or a check on a stored result. The parentheses are required. | `(c(N) == 74)` checks there are 74 rows; `(!mi(mpg))` checks mpg has no missing values |
-| `msg(string)` | A short description in double quotes. This text appears on the PASS or FAIL line in the output. Optional, but strongly recommended — it makes failures self-explanatory. | `msg("dataset has 74 rows")` |
+| `(expression)` | The condition you want to check, written inside parentheses. It must be something that is either true or false -- a comparison, a logical statement, or a check on a stored result. The parentheses are required. | `(c(N) == 74)` checks there are 74 rows; `(!mi(mpg))` checks mpg has no missing values |
+| `msg(string)` | A short description in double quotes. This text appears on the PASS or FAIL line in the output. Optional, but strongly recommended -- it makes failures self-explanatory. | `msg("dataset has 74 rows")` |
 
 **What can go inside the parentheses?** Anything that Stata's `assert` command would accept:
 - Comparisons: `==`, `!=`, `>`, `<`, `>=`, `<=`
@@ -363,7 +363,7 @@ statatest assert_approx actual expected [, tol(#)] [msg(string)]
 
 | Argument | What it means | Example |
 |---|---|---|
-| `actual` | The value your code just produced — usually a stored result like `r(mean)` after `summarize`. | `r(mean)`, `r(max)` |
+| `actual` | The value your code just produced -- usually a stored result like `r(mean)` after `summarize`. | `r(mean)`, `r(max)` |
 | `expected` | The number you expect `actual` to be close to. | `21.2973`, `0`, `2001.5` |
 | `tol(#)` | The maximum gap allowed between `actual` and `expected`. If the difference is smaller than `tol`, the test passes. If you leave this out, the default tolerance is `0.0000001` (one ten-millionth). For checking means or regression coefficients, use something like `tol(0.001)`. | `tol(0.001)`, `tol(0.01)`, `tol(1e-8)` |
 | `msg(string)` | A short description in double quotes for the output line. Optional. | `msg("mean mpg is about 21.30")` |
@@ -394,11 +394,11 @@ statatest expect_error "command, options", rc(#) [msg(string)]
 
 | Argument | What it means | Example |
 |---|---|---|
-| `command` | The Stata command you expect to fail. Write it exactly as you would type it in the Command window. Do not add `capture` yourself — statatest handles that internally. | `use "/no_file.dta"`, `assert 1 == 2` |
+| `command` | The Stata command you expect to fail. Write it exactly as you would type it in the Command window. Do not add `capture` yourself -- statatest handles that internally. | `use "/no_file.dta"`, `assert 1 == 2` |
 | `rc(#)` | The error number you expect Stata to produce when the command fails. When Stata encounters an error, it always assigns a numeric code to it. Common codes: `9` = assertion is false, `111` = variable not found, `601` = file not found. You can find any command's error code by running it without `capture` and reading the number in the red error message. | `rc(9)`, `rc(111)`, `rc(601)` |
 | `msg(string)` | A short description in double quotes for the output line. Optional. | `msg("missing file gives rc=601")` |
 
-If the command you are testing has its own options — meaning it contains its own comma — wrap the entire command in double quotes so statatest can parse it correctly.
+If the command you are testing has its own options -- meaning it contains its own comma -- wrap the entire command in double quotes so statatest can parse it correctly.
 
 The command runs under `capture`. If the return code matches `rc(#)`, the test passes. If the command succeeds (`rc=0`) or fails with a different code, you get a FAIL line showing expected vs. actual.
 
@@ -461,7 +461,7 @@ statatest teardown [, msg(string)]
 
 | Command | What it does | When to use it |
 |---|---|---|
-| `statatest setup` | Takes a complete copy of the current dataset (all rows and variables) and saves it to a hidden temporary file. The data in memory is unchanged at this point. | Before you modify the data — call this right before a `keep if`, `drop`, or merge |
+| `statatest setup` | Takes a complete copy of the current dataset (all rows and variables) and saves it to a hidden temporary file. The data in memory is unchanged at this point. | Before you modify the data -- call this right before a `keep if`, `drop`, or merge |
 | `statatest teardown` | Replaces whatever is currently in memory with the snapshot that was saved by `setup`. Every change made since `setup` is undone. | After you are done testing the modified data and want to get back to the full dataset |
 
 Only one snapshot is kept at a time. If you call `setup` a second time, it overwrites the first snapshot.
@@ -494,14 +494,14 @@ statatest run "filename.do" [, strict]
 | Argument | What it means | Example |
 |---|---|---|
 | `"filename.do"` | The path to the do-file you want to run, in double quotes. If the file is in the same folder you are working in, just use the filename. If it is elsewhere, give the full path. | `"test_analysis.do"` or `"/home/user/project/tests/test_analysis.do"` |
-| `strict` | Optional. If you add `, strict` after the filename, Stata exits with an error if any test inside the file failed. Leave this out for interactive use — execution will continue and you can read the results. | `statatest run "test_analysis.do", strict` |
+| `strict` | Optional. If you add `, strict` after the filename, Stata exits with an error if any test inside the file failed. Leave this out for interactive use -- execution will continue and you can read the results. | `statatest run "test_analysis.do", strict` |
 
 After `statatest run` finishes, the following results are stored and available to use in subsequent assertions:
 
 | Stored result | What it contains | How you might use it |
 |---|---|---|
 | `r(pass)` | The total number of assertions that passed across all suites in the file | Informational |
-| `r(fail)` | The total number of assertions that failed — `0` means everything passed | `statatest assert (r(fail) == 0)` to fail the calling do-file if anything broke |
+| `r(fail)` | The total number of assertions that failed -- `0` means everything passed | `statatest assert (r(fail) == 0)` to fail the calling do-file if anything broke |
 | `r(total)` | The total number of assertions that ran (pass + fail) | Useful for confirming all expected tests actually ran |
 | `r(suites)` | The number of `statatest begin`/`end` blocks that ran inside the file | |
 
@@ -512,7 +512,7 @@ After `statatest run` finishes, the following results are stored and available t
 statatest run "test_mycommand.do"
 assert r(fail) == 0
 
-// Or — stop Stata immediately if any test fails:
+// Or -- stop Stata immediately if any test fails:
 statatest run "test_mycommand.do", strict
 ```
 
@@ -544,7 +544,7 @@ sysuse auto, clear
 // -------------------------------------------------------
 // Test suite 1: does it produce the right output?
 // -------------------------------------------------------
-statatest begin "mycenter — basic behaviour"
+statatest begin "mycenter -- basic behaviour"
 
   mycenter mpg           // run the command
 
@@ -565,7 +565,7 @@ statatest end
 // -------------------------------------------------------
 // Test suite 2: what about bad input?
 // -------------------------------------------------------
-statatest begin "mycenter — error handling"
+statatest begin "mycenter -- error handling"
 
   capture mycenter nonexistent_var
   statatest assert (_rc != 0), msg("fails gracefully on missing variable")
@@ -577,21 +577,21 @@ Expected output:
 
 ```
 ------------------------------------------------------------
-statatest suite: mycenter — basic behaviour
+statatest suite: mycenter -- basic behaviour
 ------------------------------------------------------------
   PASS : mean of centred variable is 0
   PASS : mpg_c variable was created
   PASS : some values are below the mean
   PASS : some values are above the mean
 ------------------------------------------------------------
-4 / 4 tests passed  —  ALL PASS  [mycenter — basic behaviour]
+4 / 4 tests passed  --  ALL PASS  [mycenter -- basic behaviour]
 ------------------------------------------------------------
 ------------------------------------------------------------
-statatest suite: mycenter — error handling
+statatest suite: mycenter -- error handling
 ------------------------------------------------------------
   PASS : fails gracefully on missing variable
 ------------------------------------------------------------
-1 / 1 tests passed  —  ALL PASS  [mycenter — error handling]
+1 / 1 tests passed  --  ALL PASS  [mycenter -- error handling]
 ------------------------------------------------------------
 ```
 
@@ -599,7 +599,7 @@ statatest suite: mycenter — error handling
 
 ## Example Data: WHO TB Burden by Country
 
-The nine suites below run against the WHO TB Burden Country dataset (5,120 country-year observations, 1990–2013). Each suite shows the exact Stata input, the output that appears in the Results window, and why statatest handles that particular check better than the native Stata alternative.
+The nine suites below run against the WHO TB Burden Country dataset (5,120 country-year observations, 1990--2013). Each suite shows the exact Stata input, the output that appears in the Results window, and why statatest handles that particular check better than the native Stata alternative.
 
 The full do-file is `logs/TB_burden_tests.do`. To run it, open Stata, `cd` to the repo root (the `Statatest/` folder), then:
 
@@ -630,7 +630,7 @@ rename casedetectionrateallformspercent   cdr
 
 ---
 
-### Suite 1 — `assert_nobs` + `assert_varlist`: verify data structure on load
+### Suite 1 -- `assert_nobs` + `assert_varlist`: verify data structure on load
 
 **Syntax**
 
@@ -657,17 +657,17 @@ statatest suite: Suite 1: Data structure
   PASS : 5120 == 5120 obs
   PASS : variables exist: country iso3 region year pop inc_rate mort_rate hiv_pct cdr
 ------------------------------------------------------------
-2 / 2 tests passed  —  ALL PASS  [Suite 1: Data structure]
+2 / 2 tests passed  --  ALL PASS  [Suite 1: Data structure]
 ------------------------------------------------------------
 ```
 
 **Why statatest**
 
-After import, the typical check is `count` followed by `describe`. Both print to the Results window — you read them, decide they look right, and move on. If a collaborator re-runs the do-file on a truncated file or a column was silently dropped during a re-export, nothing flags it. With `assert_nobs` and `assert_varlist`, the exact expectation is written in code. A different row count or a missing variable stops the run immediately with a clear FAIL message, no manual inspection required.
+After import, the typical check is `count` followed by `describe`. Both print to the Results window -- you read them, decide they look right, and move on. If a collaborator re-runs the do-file on a truncated file or a column was silently dropped during a re-export, nothing flags it. With `assert_nobs` and `assert_varlist`, the exact expectation is written in code. A different row count or a missing variable stops the run immediately with a clear FAIL message, no manual inspection required.
 
 ---
 
-### Suite 2 — `assert_nomissing`: completeness checks across multiple identifiers
+### Suite 2 -- `assert_nomissing`: completeness checks across multiple identifiers
 
 **Syntax**
 
@@ -691,7 +691,7 @@ statatest suite: Suite 2: Data completeness
 ------------------------------------------------------------
   PASS : no missing in (country iso3 region year)
 ------------------------------------------------------------
-1 / 1 tests passed  —  ALL PASS  [Suite 2: Data completeness]
+1 / 1 tests passed  --  ALL PASS  [Suite 2: Data completeness]
 ------------------------------------------------------------
 ```
 
@@ -706,11 +706,11 @@ count if mi(region)
 count if mi(year)
 ```
 
-This runs four commands and prints four numbers you have to read. `misstable summarize` condenses it but still requires visual inspection — a zero-missing result just shows nothing in the table. `assert !mi(country)` does fail on violation, but it halts execution and swallows the other checks. `assert_nomissing` covers any number of variables in one line, continues after a failure so all issues surface in one run, and names the offending variables in the failure message.
+This runs four commands and prints four numbers you have to read. `misstable summarize` condenses it but still requires visual inspection -- a zero-missing result just shows nothing in the table. `assert !mi(country)` does fail on violation, but it halts execution and swallows the other checks. `assert_nomissing` covers any number of variables in one line, continues after a failure so all issues surface in one run, and names the offending variables in the failure message.
 
 ---
 
-### Suite 3 — `assert_unique`: confirm a key combination is unique
+### Suite 3 -- `assert_unique`: confirm a key combination is unique
 
 **Syntax**
 
@@ -736,17 +736,17 @@ statatest suite: Suite 3: Uniqueness
 ------------------------------------------------------------
   PASS : (iso3 year) is a unique key
 ------------------------------------------------------------
-1 / 1 tests passed  —  ALL PASS  [Suite 3: Uniqueness]
+1 / 1 tests passed  --  ALL PASS  [Suite 3: Uniqueness]
 ------------------------------------------------------------
 ```
 
 **Why statatest**
 
-`isid iso3 year` does the same check — but if the key is not unique it throws a hard error (`r(459)`) and stops Stata. You cannot continue testing. `duplicates report iso3 year` reports counts but never fails. `assert_unique` wraps `duplicates tag` internally: on failure it reports how many non-unique rows exist and which variables make up the key, then continues to the next test so all integrity checks still run.
+`isid iso3 year` does the same check -- but if the key is not unique it throws a hard error (`r(459)`) and stops Stata. You cannot continue testing. `duplicates report iso3 year` reports counts but never fails. `assert_unique` wraps `duplicates tag` internally: on failure it reports how many non-unique rows exist and which variables make up the key, then continues to the next test so all integrity checks still run.
 
 ---
 
-### Suite 4 — `assert_range`: bounds on rates and years
+### Suite 4 -- `assert_range`: bounds on rates and years
 
 **Syntax**
 
@@ -754,7 +754,7 @@ statatest suite: Suite 3: Uniqueness
 statatest assert_range varname, {min(#)|max(#)|min(#) max(#)}  [msg(string)]
 ```
 
-At least one of `min()` or `max()` is required; both may be given together. Missing values in the variable are ignored — only non-missing values are checked against the bounds.
+At least one of `min()` or `max()` is required; both may be given together. Missing values in the variable are ignored -- only non-missing values are checked against the bounds.
 
 **Input**
 
@@ -780,7 +780,7 @@ statatest suite: Suite 4: Valid ranges
   PASS : HIV% in [0,100]
   PASS : case detection rate non-negative
 ------------------------------------------------------------
-5 / 5 tests passed  —  ALL PASS  [Suite 4: Valid ranges]
+5 / 5 tests passed  --  ALL PASS  [Suite 4: Valid ranges]
 ------------------------------------------------------------
 ```
 
@@ -793,11 +793,11 @@ assert year >= 1990 & year <= 2013    // halts here if any row fails
 assert inc_rate >= 0 | mi(inc_rate)   // never reached if above fails
 ```
 
-`assert_range` handles missing values correctly by default (non-missing values outside the bounds fail; missing values are ignored), checks both bounds in one call, reports the variable name and bound in the failure message, and continues past failures — so a single run reveals all out-of-range variables at once.
+`assert_range` handles missing values correctly by default (non-missing values outside the bounds fail; missing values are ignored), checks both bounds in one call, reports the variable name and bound in the failure message, and continues past failures -- so a single run reveals all out-of-range variables at once.
 
 ---
 
-### Suite 5 — `assert`: epidemiological consistency using stored results and locals
+### Suite 5 -- `assert`: epidemiological consistency using stored results and locals
 
 **Syntax**
 
@@ -843,7 +843,7 @@ statatest suite: Suite 5: Epidemiological consistency
   PASS : incidence upper CI bound >= point estimate
   PASS : Africa mean incidence > Europe mean incidence
 ------------------------------------------------------------
-4 / 4 tests passed  —  ALL PASS  [Suite 5: Epidemiological consistency]
+4 / 4 tests passed  --  ALL PASS  [Suite 5: Epidemiological consistency]
 ------------------------------------------------------------
 ```
 
@@ -851,11 +851,11 @@ statatest suite: Suite 5: Epidemiological consistency
 
 These checks require multi-step Stata logic: `summarize`, save a local, `summarize` again, compare. The usual approach is to write `display` statements and read the numbers. Using bare `assert` works but it crashes on the first false condition, so a violation in the CI bounds check would prevent the regional comparison from running. `statatest assert` wraps each condition independently: every check runs regardless of earlier failures, and the `msg()` label makes the failure self-explanatory without needing to trace back through the code.
 
-One finding from running these checks on real data: 65 country-years had `inc_rate < mort_rate`. This is a legitimate estimation artefact for small territories with very low case counts, not a data error — but the test surfaced it immediately. The aggregate check (`mean_inc > mean_mort`) still passes because the effect disappears at the global level.
+One finding from running these checks on real data: 65 country-years had `inc_rate < mort_rate`. This is a legitimate estimation artefact for small territories with very low case counts, not a data error -- but the test surfaced it immediately. The aggregate check (`mean_inc > mean_mort`) still passes because the effect disappears at the global level.
 
 ---
 
-### Suite 6 — `assert_equal` + `assert_approx`: exact vs. tolerance-based comparison
+### Suite 6 -- `assert_equal` + `assert_approx`: exact vs. tolerance-based comparison
 
 **Syntax**
 
@@ -864,7 +864,7 @@ statatest assert_equal  actual expected            [, msg(string)]
 statatest assert_approx actual expected [, tol(#)] [msg(string)]
 ```
 
-Use `assert_equal` for integers and exactly-representable values. Use `assert_approx` whenever the result is computed (means, ratios, regression output) — floating-point arithmetic rarely produces bit-for-bit equality. The default tolerance for `assert_approx` is `1e-7`.
+Use `assert_equal` for integers and exactly-representable values. Use `assert_approx` whenever the result is computed (means, ratios, regression output) -- floating-point arithmetic rarely produces bit-for-bit equality. The default tolerance for `assert_approx` is `1e-7`.
 
 **Input**
 
@@ -887,17 +887,17 @@ statatest suite: Suite 6: Summary statistics
   PASS : latest year is 2013
   PASS : mean year ~2001.5 (slight panel imbalance)
 ------------------------------------------------------------
-3 / 3 tests passed  —  ALL PASS  [Suite 6: Summary statistics]
+3 / 3 tests passed  --  ALL PASS  [Suite 6: Summary statistics]
 ------------------------------------------------------------
 ```
 
 **Why statatest**
 
-`assert r(min) == 1990` works for integer-valued results and halts on failure with no context. For `r(mean)`, floating-point representation makes exact equality fragile: `assert r(mean) == 2001.5` would fail (the actual mean is 2001.549 because the panel has slight imbalance). `assert_approx` documents the tolerance explicitly, making it clear that "close enough" is intentional rather than sloppy. When `assert_equal` fails, the output shows both the actual and expected values side by side — more useful than the cryptic `assertion is false` from bare `assert`.
+`assert r(min) == 1990` works for integer-valued results and halts on failure with no context. For `r(mean)`, floating-point representation makes exact equality fragile: `assert r(mean) == 2001.5` would fail (the actual mean is 2001.549 because the panel has slight imbalance). `assert_approx` documents the tolerance explicitly, making it clear that "close enough" is intentional rather than sloppy. When `assert_equal` fails, the output shows both the actual and expected values side by side -- more useful than the cryptic `assertion is false` from bare `assert`.
 
 ---
 
-### Suite 7 — `setup` + `teardown`: test a subset, then restore
+### Suite 7 -- `setup` + `teardown`: test a subset, then restore
 
 **Syntax**
 
@@ -933,17 +933,17 @@ statatest suite: Suite 7: Setup and teardown
   [teardown] dataset restored
   PASS : full 5,120-row dataset restored
 ------------------------------------------------------------
-3 / 3 tests passed  —  ALL PASS  [Suite 7: Setup and teardown]
+3 / 3 tests passed  --  ALL PASS  [Suite 7: Setup and teardown]
 ------------------------------------------------------------
 ```
 
 **Why statatest**
 
-`preserve` and `restore` achieve the same snapshot behaviour natively. The difference is that `preserve`/`restore` are invisible to the test framework — there is no pass/fail record of the restore happening, and you cannot assert the expected state after restore within the same reporting block. `statatest setup` and `statatest teardown` are part of the test narrative: the restore is timestamped in the output, and the `assert_nobs 5120` after `teardown` explicitly verifies that the full dataset came back, not just that no error was thrown.
+`preserve` and `restore` achieve the same snapshot behaviour natively. The difference is that `preserve`/`restore` are invisible to the test framework -- there is no pass/fail record of the restore happening, and you cannot assert the expected state after restore within the same reporting block. `statatest setup` and `statatest teardown` are part of the test narrative: the restore is timestamped in the output, and the `assert_nobs 5120` after `teardown` explicitly verifies that the full dataset came back, not just that no error was thrown.
 
 ---
 
-### Suite 8 — `expect_error`: assert a command fails with the right return code
+### Suite 8 -- `expect_error`: assert a command fails with the right return code
 
 **Syntax**
 
@@ -974,7 +974,7 @@ statatest suite: Suite 8: expect_error
   PASS : unknown variable gives rc=111
   PASS : missing file gives rc=601
 ------------------------------------------------------------
-3 / 3 tests passed  —  ALL PASS  [Suite 8: expect_error]
+3 / 3 tests passed  --  ALL PASS  [Suite 8: expect_error]
 ------------------------------------------------------------
 ```
 
@@ -987,11 +987,11 @@ capture assert 1 == 2
 assert _rc == 9
 ```
 
-This is two lines, and the second `assert` halts if `_rc` is wrong. More importantly, it only checks "did something fail" — not "did it fail in the right way." If `assert 1 == 2` were replaced by `assert 1 == 1`, `capture` would return `_rc = 0` and the subsequent `assert _rc == 9` would itself fail with rc=9, which is confusing. `expect_error` tests both conditions atomically: it fails with a clear message if the command unexpectedly succeeds (`expected rc(9), command succeeded`) or fails with the wrong code (`expected rc(9), got rc(111)`). This is especially valuable when testing input validation in custom ado-files.
+This is two lines, and the second `assert` halts if `_rc` is wrong. More importantly, it only checks "did something fail" -- not "did it fail in the right way." If `assert 1 == 2` were replaced by `assert 1 == 1`, `capture` would return `_rc = 0` and the subsequent `assert _rc == 9` would itself fail with rc=9, which is confusing. `expect_error` tests both conditions atomically: it fails with a clear message if the command unexpectedly succeeds (`expected rc(9), command succeeded`) or fails with the wrong code (`expected rc(9), got rc(111)`). This is especially valuable when testing input validation in custom ado-files.
 
 ---
 
-### Suite 9 — `statatest run`: batch-execute a separate test file
+### Suite 9 -- `statatest run`: batch-execute a separate test file
 
 **Syntax**
 
@@ -999,7 +999,7 @@ This is two lines, and the second `assert` halts if `_rc` is wrong. More importa
 statatest run "filename.do" [, strict]
 ```
 
-Executes the do-file and aggregates pass/fail counts across all suites inside it. Returns `r(pass)`, `r(fail)`, `r(total)`, and `r(suites)` — making the results available for assertions in the calling do-file. Add `, strict` to exit non-zero if any test inside the file fails.
+Executes the do-file and aggregates pass/fail counts across all suites inside it. Returns `r(pass)`, `r(fail)`, `r(total)`, and `r(suites)` -- making the results available for assertions in the calling do-file. Add `, strict` to exit non-zero if any test inside the file fails.
 
 The sub-file (`sea_tests.do`) is written and run from the main do-file. Its content:
 
@@ -1043,20 +1043,20 @@ statatest suite: SEA region: South-East Asia checks
   PASS : cdr >= 0
   PASS : inc_rate >= 0
 ------------------------------------------------------------
-4 / 4 tests passed  —  ALL PASS  [SEA region: South-East Asia checks]
+4 / 4 tests passed  --  ALL PASS  [SEA region: South-East Asia checks]
 ------------------------------------------------------------
 ============================================================
-4 / 4 tests passed across 1 suite(s)  —  ALL PASS
+4 / 4 tests passed across 1 suite(s)  --  ALL PASS
 ============================================================
   PASS : SEA sub-file: all tests pass
 ------------------------------------------------------------
-1 / 1 tests passed  —  ALL PASS  [Suite 9: statatest run (SEA sub-file)]
+1 / 1 tests passed  --  ALL PASS  [Suite 9: statatest run (SEA sub-file)]
 ------------------------------------------------------------
 ```
 
 **Why statatest**
 
-`do sea_tests.do` runs the file but gives back nothing you can act on — no `r()` scalars, no aggregate count, no way to fail a master do-file if a sub-test failed. Checking `_rc` after `do` only tells you whether the file crashed, not whether any assertion inside it failed. `statatest run` returns `r(pass)`, `r(fail)`, `r(total)`, and `r(suites)`, so the calling do-file can assert `r(fail) == 0` and fail hard if any sub-test broke. Add `, strict` to make `statatest run` itself exit non-zero on failure, which is what CI pipelines need to gate a merge.
+`do sea_tests.do` runs the file but gives back nothing you can act on -- no `r()` scalars, no aggregate count, no way to fail a master do-file if a sub-test failed. Checking `_rc` after `do` only tells you whether the file crashed, not whether any assertion inside it failed. `statatest run` returns `r(pass)`, `r(fail)`, `r(total)`, and `r(suites)`, so the calling do-file can assert `r(fail) == 0` and fail hard if any sub-test broke. Add `, strict` to make `statatest run` itself exit non-zero on failure, which is what CI pipelines need to gate a merge.
 
 ---
 
@@ -1137,7 +1137,7 @@ Make sure you are running the command you want to test *before* the assert. stat
 Use `assert_approx` instead of `assert_equal` for any computed number. Floating-point results are almost never exactly equal.
 
 **"Stata stops when a test fails"**
-By default, statatest does NOT stop Stata when a test fails — it records the failure and continues. If Stata is stopping, something else in your do-file is producing an error. Try wrapping commands with `capture` if you expect them to fail.
+By default, statatest does NOT stop Stata when a test fails -- it records the failure and continues. If Stata is stopping, something else in your do-file is producing an error. Try wrapping commands with `capture` if you expect them to fail.
 
 ---
 

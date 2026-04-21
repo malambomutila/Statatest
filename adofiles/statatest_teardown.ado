@@ -5,7 +5,7 @@ program define statatest_teardown
     syntax [, msg(string)]
 
     if `"$STTEST_snapshot"' == "" {
-        display as error "statatest_teardown: no snapshot found — call statatest setup first"
+        display as error "statatest_teardown: no snapshot found -- call statatest setup first"
         exit 198
     }
 

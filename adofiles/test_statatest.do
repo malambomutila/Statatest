@@ -78,7 +78,7 @@ preserve
   assert r(fail) == 0
 restore
 
-// Test 8: Error handling — assert outside begin/end
+// Test 8: Error handling -- assert outside begin/end
 global STTEST_active 0
 capture statatest_assert (1 == 1)
 local t8_rc = _rc
@@ -101,7 +101,7 @@ assert r(total) == 3
 assert r(pass)  == 3
 assert r(fail)  == 0
 
-// Test 10: Compatibility — version 16
+// Test 10: Compatibility -- version 16
 version 16: statatest begin "Test 10: version 16"
 version 16: statatest assert (1 == 1), msg("runs under version 16")
 version 16: statatest end

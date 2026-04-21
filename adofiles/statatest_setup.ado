@@ -6,7 +6,7 @@ program define statatest_setup
 
     if "`msg'" == "" local msg "dataset snapshot saved"
 
-    // Fixed path in c(tmpdir) — only one snapshot at a time
+    // Fixed path in c(tmpdir) -- only one snapshot at a time
     local snapfile "`c(tmpdir)'/statatest_snapshot.dta"
     quietly save `"`snapfile'"', replace
     global STTEST_snapshot `"`snapfile'"'

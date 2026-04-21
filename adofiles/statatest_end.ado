@@ -16,11 +16,11 @@ program define statatest_end, rclass
     display as text _dup(60) "-"
     if `fail' == 0 {
         display as result `"`pass' / `total' tests passed"' ///
-            as text "  —  " as result "ALL PASS" as text "  [$STTEST_suite]"
+            as text "  --  " as result "ALL PASS" as text "  [$STTEST_suite]"
     }
     else {
         display as error `"`fail' / `total' tests FAILED"' ///
-            as text "  —  [$STTEST_suite]"
+            as text "  --  [$STTEST_suite]"
     }
     display as text _dup(60) "-"
 
