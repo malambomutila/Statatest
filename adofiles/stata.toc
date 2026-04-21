@@ -1,0 +1,13 @@
+v 3
+d statatest -- Unit-testing framework for Stata do-files and replication packages
+d
+d statatest provides a unit-testing framework for Stata 16+. Write assertion
+d suites with pass/fail checks, setup/teardown snapshots, and batch-run whole
+d test files. Designed for both analysis do-files and custom ado-file authors.
+d
+d To install:
+d   net install statatest, from(https://raw.githubusercontent.com/malambomutila/Statatest/main/adofiles/)
+d
+d Author: Malambo Mutila, IDinsight
+d Support: malambo.mutila@idinsight.org
+p statatest statatest: Unit-testing framework for Stata do-files and replication packages

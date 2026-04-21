@@ -1,0 +1,26 @@
+v 3
+d statatest: Unit-testing framework for Stata do-files and replication packages
+d
+d Author: Malambo Mutila, IDinsight
+d Support: malambo.mutila@idinsight.org
+d
+d Distribution-Date: 20260421
+d Stata: 16
+d
+f statatest.ado
+f statatest_begin.ado
+f statatest_assert.ado
+f statatest_assert_equal.ado
+f statatest_assert_approx.ado
+f statatest_assert_nomissing.ado
+f statatest_assert_unique.ado
+f statatest_assert_range.ado
+f statatest_assert_nobs.ado
+f statatest_assert_varlist.ado
+f statatest_expect_error.ado
+f statatest_setup.ado
+f statatest_teardown.ado
+f statatest_run.ado
+f statatest_end.ado
+f statatest.sthlp
+e
