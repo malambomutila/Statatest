@@ -1,6 +1,6 @@
 # Statatest: Unit Testing for Stata
 
-**statatest** lets you write simple checks that verify your Stata code is working correctly. Think of it as a way to ask Stata questions like: *"Does this variable have the right number of observations?"* or *"Did my command produce the right result?"* and get a clear PASS or FAIL answer for each one.
+**Statatest** lets you write simple checks that verify your Stata code is working correctly. Think of it as a way to ask Stata questions like: *"Does this variable have the right number of observations?"* or *"Did my command produce the right result?"* and get a clear PASS or FAIL answer for each one.
 
 If you have never written a test before, that is fine. This guide starts from zero.
 
@@ -1148,9 +1148,3 @@ help statatest
 ```
 
 ---
-
-## Author
-
-Malambo Mutila — IDinsight  
-malambo.mutila@idinsight.org  
-https://github.com/malambomutila/Statatest
